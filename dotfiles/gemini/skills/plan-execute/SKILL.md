@@ -31,6 +31,11 @@ This skill handles the sequential, test-verified execution of an approved plan.
      - **[YYYY-MM-DD]**: <What was decided, why, and how the checklist was adjusted>
      ```
 
-5. **Completion & Acceptance**:
+5. **Git & Work Product Boundaries**:
+   - The `./ai/` directory contains agent work products and must NEVER be committed to git.
+   - When creating temporary scripts or exploratory code, save them in appropriate subdirectories (`./ai/scratch/`, `./ai/data/`).
+   - Keep git commits strictly focused on production code, tests, and human docs (`docs/`).
+
+6. **Completion & Acceptance**:
    - Run the full acceptance tests.
    - If working on a sub-plan, update its status to `DONE` and mark it in the parent `./ai/plan.md` registry.

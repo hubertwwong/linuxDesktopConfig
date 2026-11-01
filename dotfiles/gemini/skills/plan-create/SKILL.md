@@ -20,6 +20,10 @@ This skill creates practical, test-driven implementation plans. It scales to the
    - **No-Gos**: Hard boundaries of what NOT to do (e.g., forbidden dependencies, breaking changes, scope bloat).
 3. **Living Decision Log**:
    - Record design choices, tradeoffs, and user pivots directly in the plan under `## Decision Log & Changes`.
+4. **Directory Organization & Git Boundaries**:
+   - Organize internal files into appropriate subdirectories under `./ai/` (e.g., `ai/scratch/` for temporary scripts, `ai/data/` for dumps, `ai/plans/` for sub-plans).
+   - The `./ai/` directory contains agent work products and must NEVER be committed to git.
+   - User-facing documentation belongs in `./docs/`.
 
 ---
 

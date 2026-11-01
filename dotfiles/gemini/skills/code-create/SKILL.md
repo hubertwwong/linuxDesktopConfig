@@ -45,6 +45,8 @@ This skill enforces clean, maintainable, and pragmatic software engineering stan
 * **Fail Fast & Loud**:
   - Never swallow exceptions with empty handlers (`except Exception: pass`).
   - Validate preconditions and configuration at the top of functions/entrypoints.
+* **Scratchpads vs Source**:
+  - One-off exploration scripts and ad-hoc test code belong in appropriate subdirectories under `./ai/scratch/` and must NEVER be committed to git.
 * **Preserve Integrity**:
   - Never strip out existing comments, docstrings, or types unless specifically requested.
 

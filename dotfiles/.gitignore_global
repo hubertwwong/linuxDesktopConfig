@@ -36,8 +36,7 @@ ENV/
 *.suo
 *.user
 
-# AI Agent Data, Caches & Transcripts
-ai/data/
-ai/scratch/
+# AI Agent Work Products, Data, Caches & Transcripts (never commit ai/)
+ai/
 .gemini/
 *.jsonl
