@@ -1,4 +1,4 @@
-# linuxDesktopConfig (debianDesktopConfig)
+# linuxDesktopConfig
 
 An Ansible-based configuration system for provisioning Debian, Ubuntu, and Linux Mint desktop environments.
 

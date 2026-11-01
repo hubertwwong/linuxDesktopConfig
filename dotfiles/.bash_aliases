@@ -2,7 +2,7 @@
 
 # Paths & Environment
 ZZ_SYNC_DIR="$HOME/syncthing/vagrant"
-ZZ_SCRIPTS_DIR="$HOME/syncthing/vagrant/ops/desktop-setup/debianDesktopConfig"
+ZZ_SCRIPTS_DIR="$HOME/syncthing/vagrant/ops/desktop-setup/linuxDesktopConfig"
 
 export GPODDER_DOWNLOAD_DIR="$ZZ_SYNC_DIR/../podcasts"
 export email="hubertwwong@gmail.com"

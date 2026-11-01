@@ -16,4 +16,4 @@
   - Track plans in `./ai/plans/` and status in `./ai/ledger.md` and `./ai/todo.md`.
   - Use the `town` CLI command (`town status`, `town sync`) to inspect or update project state.
 - **Reproducibility:**
-  - System dotfiles and OS provisioning playbooks belong in `syncthing/vagrant/ops/desktop-setup/debianDesktopConfig` and are managed via Ansible.
+  - System dotfiles and OS provisioning playbooks belong in `syncthing/vagrant/ops/desktop-setup/linuxDesktopConfig` and are managed via Ansible.
