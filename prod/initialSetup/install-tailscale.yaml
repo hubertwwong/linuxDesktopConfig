@@ -1,0 +1,17 @@
+---
+- name: Install Tailscale on Localhost
+  hosts: localhost
+  pre_tasks:
+    - name: Load distribution specific variables
+      ansible.builtin.include_vars: "{{ item }}"
+      with_first_found:
+        - files:
+            - "{{ ansible_distribution }}.yml"
+            - "{{ ansible_distribution | replace(' ', '') }}.yml"
+            - "{{ ansible_os_family }}.yml"
+            - "default.yml"
+          paths:
+            - "{{ playbook_dir }}/../vars/distros"
+
+  roles:
+    - tailscale
