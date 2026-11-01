@@ -1,104 +1,89 @@
 # linuxDesktopConfig
 
-An Ansible-based configuration system for provisioning Debian, Ubuntu, and Linux Mint desktop environments.
-
-## Supported Distributions
-
-The playbook automatically detects the operating system distribution and dynamically applies distribution-specific variables from `prod/vars/distros/`:
-- **Debian** (12+ Bookworm, Trixie): Standard GNOME Shell or minimal.
-- **Ubuntu** (20.04 Focal, 22.04 Jammy, 24.04 Noble): Standard GNOME desktop.
-- **Linux Mint** (Mint 20, 21, 22, LMDE): Optimized for Linux Mint **XFCE Edition** with automatic upstream LTS mapping (`wilma` ➔ `noble`, `virginia`/`victoria`/`vera`/`vanessa` ➔ `jammy`).
+An automated, Ansible-based desktop provisioning system for Debian, Ubuntu, and Linux Mint environments.
 
 ---
 
-## Features & Installed Software
+## Quickstart (One-Liner)
 
-1. **VSCode**: Installed natively via Microsoft's official APT repositories (replaces snap installations).
-2. **Google Chrome**: Handled via official Google APT package repository.
-3. **Docker CE**: Dynamically detects the underlying distribution and codename (mapping Linux Mint to upstream Ubuntu LTS), deploying Docker CE and Docker Compose with armored keyring GPG keys.
-4. **Mise Polyglot Runtime Manager**: Manages language runtimes and CLI tools globally under `~/.config/mise/config.toml`:
-   * **Node.js** (LTS)
-   * **Go** (Latest stable)
-   * **Python** (Latest stable)
-   * **kubectl** (Latest stable)
-   * **helm** (Latest stable)
-5. **Ghostty Terminal**: Dynamically resolves and downloads the proper `.deb` release package for the distro's upstream codename, sets it as default `x-terminal-emulator`, and provisions custom `Gruvbox Dark` styling.
-6. **Desktop Environment Customizations**:
-   * **XFCE (Linux Mint XFCE)**: Configures `xfconf-query` power management, screensaver locks, and session lock settings.
-   * **GNOME (Debian / Ubuntu)**: Configures 12h clock format and screensaver lock settings.
-7. **Dotfiles & Bash Aliases**: Deploys dynamic prompt support and CLI aliases for Kubernetes (`k`), Minikube (`mk`), and Docker.
-8. **Town CLI & AI Agent Workspace**: Deploys the portable `town` multi-agent coordination tool and global agent definitions.
-9. **Tailscale**: Configures the official Tailscale repository with armored keyring verification, installs the `tailscale` package, and enables/starts the `tailscaled` service.
-
----
-
-## Pre-requisites
-
-Ensure `git` and `ansible` are installed on the host before running any playbooks:
-```bash
-sudo apt update && sudo apt install -y git ansible
-```
-
----
-
-## Quickstart (One-Liner for New Machines)
-
-On a fresh VM, run this single command. It clones into `~/projects/linuxDesktopConfig` (avoiding cluttering `$HOME`), installs prerequisites, and starts provisioning:
+On a fresh VM or machine, run this single command to clone the repo into `~/projects/linuxDesktopConfig` (avoiding `$HOME` clutter), install dependencies, and start provisioning:
 
 ```bash
-# Provision Linux Mint:
+# Provision Linux Mint (XFCE Edition):
 curl -fsSL https://raw.githubusercontent.com/hubertwwong/linuxDesktopConfig/master/bootstrap.sh | bash -s -- mint
 
-# Or auto-detect any supported distro:
+# Or auto-detect any supported distribution (Debian / Ubuntu / Mint):
 curl -fsSL https://raw.githubusercontent.com/hubertwwong/linuxDesktopConfig/master/bootstrap.sh | bash
 ```
 
 ---
 
-## Running Provisioning (Cloned Repository)
+## Usage (Cloned Repository)
 
-Use the included [`./setup.sh`](./setup.sh) script to streamline provisioning. It automatically installs prerequisites if needed, includes the password prompt (`-K` / `--ask-become-pass`) for sudo tasks, and defaults git identity from your existing configuration.
+If you already have the repository cloned, use the `./setup.sh` runner. It automatically installs prerequisites (`git`, `ansible`), prompts for your sudo password (`-K`), and defaults your Git identity from existing config.
 
-### 1. Test Distribution Variables
-Run the assertion test suite to verify your distro mapping (e.g. Mint 22 ➔ Ubuntu Noble):
 ```bash
+cd ~/projects/linuxDesktopConfig
+
+# Run distro assertion tests (dry verification)
 ./setup.sh test
+
+# Provision target environments
+./setup.sh mint    # Linux Mint XFCE
+./setup.sh all     # Auto-detect distribution & desktop
+./setup.sh min     # Minimal / headless (CLI tools only)
+./setup.sh deb     # Debian with XRDP remote desktop & Syncthing
 ```
 
-### 2. Linux Mint (XFCE Edition)
-To provision a Linux Mint desktop:
-```bash
-./setup.sh mint
-```
-
-### 3. Complete Provisioning (Auto-Detected)
-To automatically detect the distro and desktop environment:
-```bash
-./setup.sh all
-# or simply:
-./setup.sh
-```
-
-### 4. Minimal / Headless Setup
-For a minimal CLI & development setup without desktop GUI tweaks:
-```bash
-./setup.sh min
-```
-
-### 5. Debian Remote Desktop (XRDP & Syncthing)
-To provision Debian with remote desktop and Syncthing:
-```bash
-./setup.sh deb
-```
-
-*(Any additional Ansible arguments like `--check` or `-vv` can simply be passed to `./setup.sh`, e.g., `./setup.sh mint --check`.)*
+> [!TIP]
+> You can pass standard Ansible flags directly through `./setup.sh`, e.g. `./setup.sh mint --check` for a dry run, or `-vv` for extra verbosity.
 
 ---
 
-## Per-Distro Variable Architecture
+## Supported Distributions
 
-Distribution-specific definitions reside in `prod/vars/distros/`:
-- `prod/vars/distros/LinuxMint.yml`: Maps Mint releases (`wilma`, `virginia`, etc.) to upstream Ubuntu releases for Docker CE and Ghostty, and sets `desktop_environment: "xfce"`.
-- `prod/vars/distros/Debian.yml`: Configures Debian repos and GNOME desktop environment.
-- `prod/vars/distros/Ubuntu.yml`: Configures Ubuntu repos and GNOME desktop environment.
-- `prod/vars/distros/default.yml`: Generic fallback configurations.
+The system automatically detects your OS distribution and applies matching configurations from [`prod/vars/distros/`](./prod/vars/distros/):
+
+| Distribution | Supported Versions | Desktop Environment | Upstream Base |
+| :--- | :--- | :--- | :--- |
+| **Linux Mint** | Mint 20, 21, 22, LMDE | XFCE Edition | Ubuntu LTS (`wilma` ➔ `noble`, `virginia` ➔ `jammy`) / Debian |
+| **Debian** | 12 (Bookworm), 13 (Trixie) | GNOME or Minimal | Debian Native |
+| **Ubuntu** | 20.04 (Focal), 22.04 (Jammy), 24.04 (Noble) | GNOME Desktop | Ubuntu Native |
+
+---
+
+## Included Software & Tools
+
+- **Desktop Runtimes & Development**:
+  - **VSCode**: Installed via official Microsoft APT repository (native .deb, no Snap).
+  - **Mise Polyglot Manager**: Global installations of latest Node.js, Go, Python, `kubectl`, and `helm`.
+  - **Docker CE & Compose**: Dynamic distro repository integration with armored keyring verification.
+  - **Ghostty Terminal**: Native `.deb` package auto-matched to upstream distro version with `Gruvbox Dark` styling.
+  - **Google Chrome**: Official Google APT package repository.
+- **Networking & Services**:
+  - **Tailscale**: Official Tailscale repository, package installation, and systemd service setup.
+- **System & Shell Customizations**:
+  - **Dotfiles**: Prompt enhancements and CLI shortcuts (`k`, `mk`, docker aliases).
+  - **Desktop Customizations**: Power management, screensaver timeout, and lock-screen behavior (`xfconf-query` for XFCE, `gsettings` for GNOME).
+  - **Town CLI & AI Tools**: Multi-agent coordination utilities and global definitions.
+
+---
+
+## Repository Structure
+
+```text
+├── bootstrap.sh                 # One-liner remote installer
+├── setup.sh                     # Local runner script (handles sudo prompt & args)
+├── ansible.cfg                  # Ansible configuration (inventory & output formatting)
+├── hosts                        # Localhost inventory definition
+├── prod/
+│   ├── initialSetup/
+│   │   ├── site-all.yaml        # Complete auto-detected desktop playbook
+│   │   ├── site-mint.yaml       # Linux Mint XFCE playbook
+│   │   ├── site-deb.yaml        # Debian remote desktop playbook
+│   │   ├── site-min.yaml        # Minimal headless playbook
+│   │   └── roles/               # Modular Ansible roles
+│   └── vars/distros/            # Distribution-specific variable overrides
+└── test/
+    └── test_distro_vars.yaml    # Unit assertions for distro upstream mappings
+```
