@@ -10,13 +10,14 @@
     - "{{ ansible_env.HOME }}/.gemini/config/skills"
     - "{{ ansible_env.HOME }}/.gemini/config/plugins"
 
-- name: Antigravity - Remove legacy town CLI and subagents if present
+- name: Antigravity - Remove legacy town CLI, subagents, and removed skills if present
   ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   loop:
     - "{{ ansible_env.HOME }}/.local/bin/town"
     - "{{ ansible_env.HOME }}/.gemini/config/agents"
+    - "{{ ansible_env.HOME }}/.gemini/config/skills/desktop-provisioner"
 
 - name: Antigravity - Deploy global agent config.json
   ansible.builtin.copy:
