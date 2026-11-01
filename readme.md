@@ -41,37 +41,43 @@ sudo apt update && sudo apt install -y git ansible
 
 ---
 
-## Running the Playbooks
+## Running Provisioning
 
-### 1. Complete Provisioning (Auto-Detected)
-To run the complete setup with automatic distro and desktop detection, invoke `site-all.yaml`. Provide your Git name and email to configure Git settings:
+Use the included [`./setup.sh`](./setup.sh) script to streamline provisioning. It automatically installs prerequisites if needed, includes the password prompt (`-K` / `--ask-become-pass`) for sudo tasks, and defaults git identity from your existing configuration.
 
+### 1. Test Distribution Variables
+Run the assertion test suite to verify your distro mapping (e.g. Mint 22 ➔ Ubuntu Noble):
 ```bash
-ansible-playbook -v prod/initialSetup/site-all.yaml --extra-vars "git_name='Your Name' git_email='your.email@example.com'"
+./setup.sh test
 ```
 
 ### 2. Linux Mint (XFCE Edition)
-To explicitly target Linux Mint XFCE:
-
+To provision a Linux Mint desktop:
 ```bash
-ansible-playbook -v prod/initialSetup/site-mint.yaml --extra-vars "git_name='Your Name' git_email='your.email@example.com'"
+./setup.sh mint
 ```
 
-### 3. Minimal / Headless Setup
-If you only need a minimal development environment (without GUI desktop tweaks):
-
+### 3. Complete Provisioning (Auto-Detected)
+To automatically detect the distro and desktop environment:
 ```bash
-ansible-playbook -v prod/initialSetup/site-min.yaml
+./setup.sh all
+# or simply:
+./setup.sh
 ```
 
-### 4. Debian Remote Desktop (XRDP & Syncthing)
-To provision a Debian system with remote desktop (XRDP) and Syncthing:
-
+### 4. Minimal / Headless Setup
+For a minimal CLI & development setup without desktop GUI tweaks:
 ```bash
-ansible-playbook -v prod/initialSetup/site-deb.yaml
+./setup.sh min
 ```
 
-*Note: Since the default user on these installations typically has passwordless sudo access, passing `--ask-become-pass` is not required.*
+### 5. Debian Remote Desktop (XRDP & Syncthing)
+To provision Debian with remote desktop and Syncthing:
+```bash
+./setup.sh deb
+```
+
+*(Any additional Ansible arguments like `--check` or `-vv` can simply be passed to `./setup.sh`, e.g., `./setup.sh mint --check`.)*
 
 ---
 

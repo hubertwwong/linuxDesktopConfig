@@ -1,2 +1,2 @@
-git_name: "{{lookup('env', 'GIT_NAME')}}"
-git_email: "{{lookup('env', 'GIT_EMAIL')}}"
+git_name: "{{ lookup('env', 'GIT_NAME') | default(lookup('pipe', 'git config --get user.name 2>/dev/null || true'), true) | default('Hubert Wong', true) }}"
+git_email: "{{ lookup('env', 'GIT_EMAIL') | default(lookup('pipe', 'git config --get user.email 2>/dev/null || true'), true) | default('hubertwwong@gmail.com', true) }}"
