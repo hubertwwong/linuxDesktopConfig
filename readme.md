@@ -41,7 +41,21 @@ sudo apt update && sudo apt install -y git ansible
 
 ---
 
-## Running Provisioning
+## Quickstart (One-Liner for New Machines)
+
+On a fresh VM, run this single command. It clones into `~/projects/linuxDesktopConfig` (avoiding cluttering `$HOME`), installs prerequisites, and starts provisioning:
+
+```bash
+# Provision Linux Mint:
+curl -fsSL https://raw.githubusercontent.com/hubertwwong/linuxDesktopConfig/master/bootstrap.sh | bash -s -- mint
+
+# Or auto-detect any supported distro:
+curl -fsSL https://raw.githubusercontent.com/hubertwwong/linuxDesktopConfig/master/bootstrap.sh | bash
+```
+
+---
+
+## Running Provisioning (Cloned Repository)
 
 Use the included [`./setup.sh`](./setup.sh) script to streamline provisioning. It automatically installs prerequisites if needed, includes the password prompt (`-K` / `--ask-become-pass`) for sudo tasks, and defaults git identity from your existing configuration.
 
