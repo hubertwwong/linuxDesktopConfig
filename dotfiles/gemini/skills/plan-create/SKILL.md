@@ -2,32 +2,67 @@
 name: plan-create
 description: >-
   Use this skill when asked to create, draft, outline, or architect an implementation plan
-  for a coding task, new feature, bug fix, or refactor.
+  for a task, feature, or refactor. Supports North Stars, Guardrails/No-Gos, staged execution,
+  and root/sub-plan hierarchies for multi-agent workflows.
 ---
 
 # Plan Create Skill
 
-This skill guides the creation of minimal, practical, and test-driven implementation plans.
+This skill guides the creation of resilient implementation plans featuring clear North Stars, explicit Guardrails (No-Gos), staged progression, and multi-agent sub-plan delegation.
 
-## Guidelines
-- Keep plans focused and actionable (typically 3–6 discrete steps).
-- Every step MUST include an explicit **Verification Step** (e.g., unit test command, curl, CLI run).
-- Save the plan in the project's internal directory at `./ai/plan.md` (or present as an artifact).
+## Core Concepts
 
-## Standard Plan Format (`./ai/plan.md`)
+1. **North Star**: The single defining outcome that represents success.
+2. **Guardrails & No-Gos**: Non-negotiable boundaries of what NOT to do (e.g., forbidden dependencies, breaking existing public APIs, out-of-scope refactoring).
+3. **Hierarchy**:
+   - **Simple Tasks**: Single self-contained `./ai/plan.md`.
+   - **Complex Tasks**: **Root Plan** (`./ai/plan.md`) linking to modular **Sub-Plans** (`./ai/plans/PLAN-XXX_<title>.md`).
+4. **Agent Decoupling**: For multi-agent workflows, each sub-plan is assigned to a designated agent/role with isolated target files to prevent overlapping edits.
 
-When authoring a plan, use this markdown structure:
+---
+
+## Plan Formats
+
+### Format A: Root Plan (`./ai/plan.md`)
+Used for multi-stage initiatives or projects with sub-plans:
 
 ```markdown
-# Plan: <Feature / Task Title>
+# Root Plan: <Initiative Title>
 
-## 1. Objective
-Clear 1-2 sentence statement of what this plan delivers.
+## 1. North Star & Success Metric
+What single outcome proves complete success?
 
-## 2. Approach & Architecture
-Brief summary of the technical strategy, affected files, and dependencies.
+## 2. Guardrails & No-Gos (Non-Negotiable)
+- 🚫 **No-Go 1**: <e.g., Do not change existing public API contracts>
+- 🚫 **No-Go 2**: <e.g., Do not introduce new heavy dependencies>
+- 🛡️ **Guardrail**: <e.g., Maintain 100% backward compatibility for storage schemas>
 
-## 3. Implementation Checklist
+## 3. Stages & Sub-Plan Registry
+| Stage | Sub-Plan | Description | Assignee / Agent | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Stage 1** | [PLAN-001](./plans/PLAN-001_data_layer.md) | Data models & migrations | `agent-data` | `READY` |
+| **Stage 1** | [PLAN-002](./plans/PLAN-002_api_service.md) | Core API endpoints | `agent-backend` | `READY` |
+| **Stage 2** | [PLAN-003](./plans/PLAN-003_frontend.md) | UI implementation | `agent-ui` | `BLOCKED` (depends on Stage 1) |
+
+## 4. Stage Gate Verification
+- Criteria required before advancing from Stage N to Stage N+1.
+```
+
+### Format B: Sub-Plan (`./ai/plans/PLAN-XXX_<title>.md`)
+Self-contained work package designed for an individual agent or focused phase:
+
+```markdown
+# Sub-Plan: PLAN-XXX - <Title>
+- **Parent Plan**: [Root Plan](../plan.md)
+- **Assignee**: `<Agent Role or Self>`
+- **Status**: `READY` | `IN_PROGRESS` | `DONE`
+
+## North Star & Guardrails
+- **Goal**: <Specific outcome for this sub-plan>
+- **No-Gos**: <Specific boundaries relevant to this sub-plan>
+- **Target Files**: <Explicit list of files this sub-plan owns>
+
+## Implementation Checklist
 - [ ] **Step 1: <Short description>**
   - Target files: `path/to/file`
   - Action: <What to change or add>
@@ -37,13 +72,14 @@ Brief summary of the technical strategy, affected files, and dependencies.
   - Action: <What to change or add>
   - Verification: `<exact command or test to verify this step>`
 
-## 4. Acceptance Criteria
-- [ ] All new and existing tests pass.
-- [ ] Edge cases handled.
-- [ ] User documentation or summary provided.
+## Acceptance Criteria
+- [ ] All step verification tests pass.
+- [ ] No guardrails or no-gos violated.
 ```
 
+---
+
 ## Next Steps
-After writing the plan, invite the user to either:
-1. Audit and stress-test the plan with `plan-review`.
-2. Directly approve and execute the plan with `plan-execute`.
+After writing the plan:
+1. Audit guardrails and agent decoupling with `plan-review`.
+2. Execute target sub-plans or root stages with `plan-execute`.

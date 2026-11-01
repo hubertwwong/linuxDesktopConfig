@@ -2,33 +2,42 @@
 name: plan-review
 description: >-
   Use this skill to review, audit, critique, stress-test, or find edge cases and testing gaps
-  in an existing implementation plan (such as ./ai/plan.md) before execution.
+  in an existing implementation plan (root plan or sub-plans). Audits North Stars, guardrail/no-go
+  violations, stage gates, and multi-agent file decoupling.
 ---
 
 # Plan Review Skill
 
-This skill systematically inspects an existing implementation plan to identify oversights, risks, and verification gaps before writing code.
+This skill systematically inspects implementation plans (root plans or modular sub-plans) to identify oversights, boundary violations, and verification gaps before writing code.
 
-## Review Procedure
+## Review Dimensions
 
-1. **Read Active Plan**:
-   Read `./ai/plan.md` (or the specified plan file / artifact).
+1. **North Star & Guardrails Audit**:
+   - Is the North Star measurable and unambiguous?
+   - Are the "No-Gos" realistic, explicitly stated, and enforceable?
+   - Do any planned steps violate the stated No-Gos or scope boundaries?
 
-2. **Evaluate Against 5 Quality Criteria**:
-   - **Completeness**: Are all requirements covered? Are there unstated assumptions?
-   - **Feasibility & Simplicity**: Is the architecture minimal and KISS? Can it be simplified?
-   - **Order of Execution**: Are file dependencies and setup steps sequenced correctly?
-   - **Verification Rigor**: Does every single step have a concrete, executable verification test?
-   - **Edge Cases & Failure Modes**: How does it behave on errors, missing configs, or invalid inputs?
+2. **Stage Progression & Dependency Logic**:
+   - Are stages logically gated? (Can Stage 1 truly be finished independently?)
+   - Are prerequisites clearly defined before dependent sub-plans start?
 
-3. **Output Review Verdict**:
-   Deliver a crisp review with:
-   - **Verdict**:
-     - `APPROVED`: Ready for execution with no blockers.
-     - `APPROVED WITH MINOR EDITS`: Small adjustments suggested; can proceed.
-     - `REVISION NEEDED`: Critical gaps or missing verification steps must be resolved first.
-   - **Identified Gaps / Risks**: Bullet points of specific issues or edge cases found.
-   - **Suggested Improvements**: Exact adjustments to update in `./ai/plan.md`.
+3. **Multi-Agent Decoupling & Collision Risk**:
+   - For sub-plans assigned to different agents: Do their target files overlap?
+   - Is each sub-plan self-contained with its own independent verification commands?
 
-4. **Update Plan**:
-   If the user agrees with the recommendations, update `./ai/plan.md` so it is primed for `plan-execute`.
+4. **Verification Rigor**:
+   - Does every checklist step contain an explicit, concrete, executable test command?
+
+---
+
+## Output Verdict Format
+
+Deliver a structured review report:
+
+- **Verdict**:
+  - `APPROVED`: Ready for execution with no blockers.
+  - `APPROVED WITH MINOR EDITS`: Small adjustments suggested; safe to proceed.
+  - `REVISION NEEDED`: Critical gaps, guardrail violations, or file collision risks.
+- **Guardrail Compliance**: Confirmation that all No-Gos are respected.
+- **Agent Decoupling & Stage Gate Analysis**: Evaluation of concurrency and file isolation.
+- **Recommended Updates**: Specific edits to apply to `./ai/plan.md` or `./ai/plans/PLAN-XXX.md`.
