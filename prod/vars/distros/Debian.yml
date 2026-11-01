@@ -14,3 +14,7 @@ docker_repo_release: "{{ ansible_distribution_release }}"
 
 # Ghostty Terminal deb codename (Debian uses trixie or fallback)
 ghostty_codename: "{{ 'trixie' if ansible_distribution_release not in ['trixie', 'forky'] else ansible_distribution_release }}"
+
+# Tailscale Repository Variables
+tailscale_distro: "debian"
+tailscale_codename: "{{ ansible_distribution_release }}"

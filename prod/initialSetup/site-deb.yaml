@@ -25,6 +25,7 @@
     - python
     - git
     - docker_ce
+    - tailscale
     - mise
     - syncthing
     - xrdp

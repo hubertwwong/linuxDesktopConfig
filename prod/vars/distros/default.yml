@@ -14,3 +14,7 @@ docker_repo_release: "{{ ansible_distribution_release }}"
 
 # Ghostty Terminal deb codename
 ghostty_codename: "{{ ansible_distribution_release }}"
+
+# Tailscale Repository Variables
+tailscale_distro: "{{ 'debian' if ansible_os_family == 'Debian' else 'ubuntu' }}"
+tailscale_codename: "{{ ansible_distribution_release }}"

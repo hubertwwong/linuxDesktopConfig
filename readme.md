@@ -28,6 +28,7 @@ The playbook automatically detects the operating system distribution and dynamic
    * **GNOME (Debian / Ubuntu)**: Configures 12h clock format and screensaver lock settings.
 7. **Dotfiles & Bash Aliases**: Deploys dynamic prompt support and CLI aliases for Kubernetes (`k`), Minikube (`mk`), and Docker.
 8. **Town CLI & AI Agent Workspace**: Deploys the portable `town` multi-agent coordination tool and global agent definitions.
+9. **Tailscale**: Configures the official Tailscale repository with armored keyring verification, installs the `tailscale` package, and enables/starts the `tailscaled` service.
 
 ---
 

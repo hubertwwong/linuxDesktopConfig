@@ -20,6 +20,8 @@
               - docker_repo_release == "noble"
               - ghostty_codename == "noble"
               - desktop_environment == "xfce"
+              - tailscale_distro == "ubuntu"
+              - tailscale_codename == "noble"
             msg: "Mint 22 (wilma) resolution failed"
 
     - name: Test Linux Mint Virginia (Mint 21.3)
@@ -39,6 +41,8 @@
               - docker_repo_release == "jammy"
               - ghostty_codename == "jammy"
               - desktop_environment == "xfce"
+              - tailscale_distro == "ubuntu"
+              - tailscale_codename == "jammy"
             msg: "Mint 21 (virginia) resolution failed"
 
     - name: Test Debian Bookworm
@@ -58,4 +62,6 @@
               - docker_repo_release == "bookworm"
               - ghostty_codename == "trixie"
               - desktop_environment == "gnome"
+              - tailscale_distro == "debian"
+              - tailscale_codename == "bookworm"
             msg: "Debian resolution failed"

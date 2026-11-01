@@ -36,3 +36,7 @@ docker_repo_release: "{{ distro_upstream_release }}"
 
 # Ghostty Terminal deb codename
 ghostty_codename: "{{ distro_upstream_release }}"
+
+# Tailscale Repository Variables
+tailscale_distro: "{{ distro_upstream_family }}"
+tailscale_codename: "{{ distro_upstream_release }}"

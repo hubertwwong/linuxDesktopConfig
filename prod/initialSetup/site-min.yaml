@@ -27,6 +27,7 @@
     - python
     - git
     - docker_ce
+    - tailscale
     - mise
     - ghostty
     - antigravity
