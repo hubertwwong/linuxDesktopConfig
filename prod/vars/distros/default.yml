@@ -1,0 +1,16 @@
+---
+# ==============================================================================
+# Fallback Default Configuration
+# ==============================================================================
+
+desktop_environment: "gnome"
+
+distro_upstream_family: "{{ 'debian' if ansible_os_family == 'Debian' else 'ubuntu' }}"
+distro_upstream_release: "{{ ansible_distribution_release }}"
+
+# Docker CE Repository Variables
+docker_repo_distribution: "{{ 'debian' if ansible_distribution | lower == 'debian' else 'ubuntu' }}"
+docker_repo_release: "{{ ansible_distribution_release }}"
+
+# Ghostty Terminal deb codename
+ghostty_codename: "{{ ansible_distribution_release }}"

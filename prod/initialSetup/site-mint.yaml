@@ -1,0 +1,35 @@
+---
+# ==============================================================================
+# Linux Mint XFCE Desktop Provisioning Playbook
+# Tailored specifically for Linux Mint (XFCE Edition)
+# ==============================================================================
+- name: Provision Linux Mint XFCE Desktop
+  hosts: localhost
+  vars:
+    desktop_environment: "xfce"
+  pre_tasks:
+    - name: Load Linux Mint distribution variables
+      ansible.builtin.include_vars: "{{ item }}"
+      with_first_found:
+        - files:
+            - "LinuxMint.yml"
+            - "{{ ansible_distribution }}.yml"
+            - "{{ ansible_os_family }}.yml"
+            - "default.yml"
+          paths:
+            - "{{ playbook_dir }}/../vars/distros"
+
+  roles:
+    - initial_packages
+    - xfce_settings
+    - timezone
+    - dot
+    - chrome
+    - python
+    - vscode_apt
+    - vscode_file_handles
+    - git
+    - docker_ce
+    - mise
+    - ghostty
+    - antigravity

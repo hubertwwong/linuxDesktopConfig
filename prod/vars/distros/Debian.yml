@@ -1,0 +1,16 @@
+---
+# ==============================================================================
+# Debian Configuration
+# ==============================================================================
+
+desktop_environment: "gnome"
+
+distro_upstream_family: "debian"
+distro_upstream_release: "{{ ansible_distribution_release }}"
+
+# Docker CE Repository Variables
+docker_repo_distribution: "debian"
+docker_repo_release: "{{ ansible_distribution_release }}"
+
+# Ghostty Terminal deb codename (Debian uses trixie or fallback)
+ghostty_codename: "{{ 'trixie' if ansible_distribution_release not in ['trixie', 'forky'] else ansible_distribution_release }}"

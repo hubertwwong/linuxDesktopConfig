@@ -1,0 +1,16 @@
+---
+# ==============================================================================
+# Ubuntu Configuration
+# ==============================================================================
+
+desktop_environment: "gnome"
+
+distro_upstream_family: "ubuntu"
+distro_upstream_release: "{{ ansible_distribution_release }}"
+
+# Docker CE Repository Variables
+docker_repo_distribution: "ubuntu"
+docker_repo_release: "{{ ansible_distribution_release }}"
+
+# Ghostty Terminal deb codename
+ghostty_codename: "{{ ansible_distribution_release }}"

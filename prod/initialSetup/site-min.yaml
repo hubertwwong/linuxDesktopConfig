@@ -1,8 +1,22 @@
 ---
-# Call all other playboosk to setup my setup.
-# Mostly just some ansible pratice.
-- name: Run the other roles
+# ==============================================================================
+# Minimal Desktop / Headless Provisioning Playbook
+# Provisions base tools, Mise, Docker, Git, Chrome, VSCode without UI desktop customizations
+# ==============================================================================
+- name: Run Minimal Provisioning Playbook
   hosts: localhost
+  pre_tasks:
+    - name: Load distribution specific variables
+      ansible.builtin.include_vars: "{{ item }}"
+      with_first_found:
+        - files:
+            - "{{ ansible_distribution }}.yml"
+            - "{{ ansible_distribution | replace(' ', '') }}.yml"
+            - "{{ ansible_os_family }}.yml"
+            - "default.yml"
+          paths:
+            - "{{ playbook_dir }}/../vars/distros"
+
   roles:
     - initial_packages
     - timezone

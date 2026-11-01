@@ -1,0 +1,38 @@
+---
+# ==============================================================================
+# Linux Mint Configuration & Upstream Mapping
+# ==============================================================================
+
+# Default Desktop Environment for Mint XFCE edition
+desktop_environment: "xfce"
+
+# Linux Mint upstream release mapping (Mint version -> Ubuntu/Debian LTS codename)
+mint_upstream_releases:
+  # Linux Mint 22.x (based on Ubuntu 24.04 Noble Numbat)
+  wilma: "noble"
+  # Linux Mint 21.x (based on Ubuntu 22.04 Jammy Jellyfish)
+  virginia: "jammy"
+  victoria: "jammy"
+  vera: "jammy"
+  vanessa: "jammy"
+  # Linux Mint 20.x (based on Ubuntu 20.04 Focal Fossa)
+  una: "focal"
+  uma: "focal"
+  ulyssa: "focal"
+  ulyana: "focal"
+  # LMDE (Linux Mint Debian Edition)
+  faye: "bookworm"
+  elsie: "bullseye"
+
+# Upstream family ('debian' for LMDE, 'ubuntu' for standard Linux Mint)
+distro_upstream_family: "{{ 'debian' if ansible_distribution_release in ['faye', 'elsie'] else 'ubuntu' }}"
+
+# Upstream codename (defaulting to noble if on newer unmapped Mint)
+distro_upstream_release: "{{ mint_upstream_releases[ansible_distribution_release] | default('noble') }}"
+
+# Docker CE Repository Variables
+docker_repo_distribution: "{{ distro_upstream_family }}"
+docker_repo_release: "{{ distro_upstream_release }}"
+
+# Ghostty Terminal deb codename
+ghostty_codename: "{{ distro_upstream_release }}"

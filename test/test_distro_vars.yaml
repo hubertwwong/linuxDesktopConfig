@@ -1,0 +1,61 @@
+---
+- name: Test Distribution Variable Resolution
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Test Linux Mint Wilma (Mint 22)
+      vars:
+        ansible_distribution: "LinuxMint"
+        ansible_distribution_release: "wilma"
+        ansible_os_family: "Debian"
+      block:
+        - name: Include Mint vars
+          ansible.builtin.include_vars:
+            file: "{{ playbook_dir }}/../prod/vars/distros/LinuxMint.yml"
+
+        - name: Assert Mint 22 mappings
+          ansible.builtin.assert:
+            that:
+              - docker_repo_distribution == "ubuntu"
+              - docker_repo_release == "noble"
+              - ghostty_codename == "noble"
+              - desktop_environment == "xfce"
+            msg: "Mint 22 (wilma) resolution failed"
+
+    - name: Test Linux Mint Virginia (Mint 21.3)
+      vars:
+        ansible_distribution: "LinuxMint"
+        ansible_distribution_release: "virginia"
+        ansible_os_family: "Debian"
+      block:
+        - name: Include Mint vars
+          ansible.builtin.include_vars:
+            file: "{{ playbook_dir }}/../prod/vars/distros/LinuxMint.yml"
+
+        - name: Assert Mint 21 mappings
+          ansible.builtin.assert:
+            that:
+              - docker_repo_distribution == "ubuntu"
+              - docker_repo_release == "jammy"
+              - ghostty_codename == "jammy"
+              - desktop_environment == "xfce"
+            msg: "Mint 21 (virginia) resolution failed"
+
+    - name: Test Debian Bookworm
+      vars:
+        ansible_distribution: "Debian"
+        ansible_distribution_release: "bookworm"
+        ansible_os_family: "Debian"
+      block:
+        - name: Include Debian vars
+          ansible.builtin.include_vars:
+            file: "{{ playbook_dir }}/../prod/vars/distros/Debian.yml"
+
+        - name: Assert Debian mappings
+          ansible.builtin.assert:
+            that:
+              - docker_repo_distribution == "debian"
+              - docker_repo_release == "bookworm"
+              - ghostty_codename == "trixie"
+              - desktop_environment == "gnome"
+            msg: "Debian resolution failed"

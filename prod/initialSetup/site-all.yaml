@@ -1,12 +1,30 @@
 ---
-# Call all other playboosk to setup my setup.
-# Mostly just some ansible pratice.
-- name: Run the other roles
+# ==============================================================================
+# Complete Multi-Distro Desktop Provisioning Playbook
+# Automatically detects Debian, Ubuntu, and Linux Mint (XFCE / GNOME)
+# ==============================================================================
+- name: Run Desktop Provisioning Playbook
   hosts: localhost
+  pre_tasks:
+    - name: Load distribution specific variables
+      ansible.builtin.include_vars: "{{ item }}"
+      with_first_found:
+        - files:
+            - "{{ ansible_distribution }}.yml"
+            - "{{ ansible_distribution | replace(' ', '') }}.yml"
+            - "{{ ansible_os_family }}.yml"
+            - "default.yml"
+          paths:
+            - "{{ playbook_dir }}/../vars/distros"
+
   roles:
     - initial_packages
-    - gnome_accounts
-    - gnome_settings
+    - role: gnome_accounts
+      when: desktop_environment | default('gnome') == 'gnome'
+    - role: gnome_settings
+      when: desktop_environment | default('gnome') == 'gnome'
+    - role: xfce_settings
+      when: desktop_environment | default('gnome') == 'xfce'
     - timezone
     - dot
     - chrome

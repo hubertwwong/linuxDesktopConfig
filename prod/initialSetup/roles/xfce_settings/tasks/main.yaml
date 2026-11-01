@@ -1,0 +1,38 @@
+---
+# ==============================================================================
+# XFCE Desktop Settings Role (Linux Mint XFCE / Debian XFCE)
+# ==============================================================================
+
+- name: Check if xfconf-query tool is available
+  ansible.builtin.command: which xfconf-query
+  register: xfconf_check
+  failed_when: false
+  changed_when: false
+
+- name: Configure XFCE power manager - Disable lock on suspend
+  ansible.builtin.command: >
+    xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/lock-screen-suspend-hibernate -n -t bool -s false
+  when: xfconf_check.rc == 0
+  failed_when: false
+  changed_when: true
+
+- name: Configure XFCE session - Disable lock on suspend
+  ansible.builtin.command: >
+    xfconf-query -c xfce4-session -p /general/LockOnSuspend -n -t bool -s false
+  when: xfconf_check.rc == 0
+  failed_when: false
+  changed_when: true
+
+- name: Configure XFCE screensaver - Disable automatic lock
+  ansible.builtin.command: >
+    xfconf-query -c xfce4-screensaver -p /saver/enabled -n -t bool -s false
+  when: xfconf_check.rc == 0
+  failed_when: false
+  changed_when: true
+
+- name: Configure XFCE screensaver - Disable lock on screensaver activation
+  ansible.builtin.command: >
+    xfconf-query -c xfce4-screensaver -p /lock/saver-activation/enabled -n -t bool -s false
+  when: xfconf_check.rc == 0
+  failed_when: false
+  changed_when: true

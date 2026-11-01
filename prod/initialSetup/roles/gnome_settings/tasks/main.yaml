@@ -1,5 +1,12 @@
+---
 - name: Disable gnome lock on suspend password prompt
-  shell: gsettings set org.gnome.desktop.screensaver lock-enabled false
+  ansible.builtin.command: gsettings set org.gnome.desktop.screensaver lock-enabled false
+  when: desktop_environment | default('gnome') == 'gnome'
+  failed_when: false
+  changed_when: true
 
-- name: Set 12 hour format.
-  shell: gsettings set org.gnome.desktop.interface clock-format '12h'
+- name: Set 12 hour clock format
+  ansible.builtin.command: gsettings set org.gnome.desktop.interface clock-format '12h'
+  when: desktop_environment | default('gnome') == 'gnome'
+  failed_when: false
+  changed_when: true

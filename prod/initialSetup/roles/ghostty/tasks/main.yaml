@@ -7,7 +7,7 @@
 
 - name: Ghostty - Determine distribution and architecture
   ansible.builtin.set_fact:
-    ghostty_codename: "{{ 'trixie' if ansible_distribution == 'Debian' and ansible_distribution_release not in ['trixie', 'forky'] else ansible_distribution_release }}"
+    ghostty_target_codename: "{{ ghostty_codename | default(('trixie' if ansible_distribution == 'Debian' and ansible_distribution_release not in ['trixie', 'forky'] else ansible_distribution_release)) }}"
     ghostty_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
 
 - name: Ghostty - Query latest release metadata from GitHub
@@ -21,12 +21,12 @@
 
 - name: Ghostty - Find matching deb download URL
   ansible.builtin.set_fact:
-    ghostty_deb_url: "{{ (ghostty_release_json.content | from_json).assets | selectattr('browser_download_url', 'search', ghostty_arch ~ '_' ~ ghostty_codename ~ '.deb$') | map(attribute='browser_download_url') | first }}"
+    ghostty_deb_url: "{{ (ghostty_release_json.content | from_json).assets | selectattr('browser_download_url', 'search', ghostty_arch ~ '_' ~ ghostty_target_codename ~ '.deb$') | map(attribute='browser_download_url') | first }}"
   when: ghostty_check.rc != 0
 
 - name: Ghostty - Fallback URL if asset query did not return
   ansible.builtin.set_fact:
-    ghostty_deb_url: "https://github.com/mkasberg/ghostty-ubuntu/releases/latest/download/ghostty_1.3.1-0~ppa2_{{ ghostty_arch }}_{{ ghostty_codename }}.deb"
+    ghostty_deb_url: "https://github.com/mkasberg/ghostty-ubuntu/releases/latest/download/ghostty_1.3.1-0~ppa2_{{ ghostty_arch }}_{{ ghostty_target_codename }}.deb"
   when: ghostty_check.rc != 0 and (ghostty_deb_url is not defined or ghostty_deb_url == '')
 
 - name: Ghostty - Download deb package
