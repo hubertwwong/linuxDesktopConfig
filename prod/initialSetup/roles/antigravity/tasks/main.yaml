@@ -5,12 +5,17 @@
     state: directory
     mode: '0755'
   loop:
-    - "{{ ansible_env.HOME }}/.local"
-    - "{{ ansible_env.HOME }}/.local/bin"
     - "{{ ansible_env.HOME }}/.gemini"
     - "{{ ansible_env.HOME }}/.gemini/config"
     - "{{ ansible_env.HOME }}/.gemini/config/skills"
     - "{{ ansible_env.HOME }}/.gemini/config/plugins"
+
+- name: Antigravity - Remove legacy town CLI and subagents if present
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ ansible_env.HOME }}/.local/bin/town"
     - "{{ ansible_env.HOME }}/.gemini/config/agents"
 
 - name: Antigravity - Deploy global agent config.json
@@ -30,15 +35,3 @@
     src: "{{ playbook_dir }}/../../dotfiles/gemini/AGENTS.md"
     dest: "{{ ansible_env.HOME }}/.gemini/config/AGENTS.md"
     mode: '0644'
-
-- name: Antigravity - Deploy custom agent definitions
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../../dotfiles/gemini/agents/"
-    dest: "{{ ansible_env.HOME }}/.gemini/config/agents/"
-    mode: '0644'
-
-- name: Antigravity - Deploy portable town CLI tracking tool
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../../dotfiles/town"
-    dest: "{{ ansible_env.HOME }}/.local/bin/town"
-    mode: '0755'

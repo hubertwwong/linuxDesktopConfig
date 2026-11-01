@@ -65,7 +65,7 @@ The system automatically detects your OS distribution and applies matching confi
 - **System & Shell Customizations**:
   - **Dotfiles**: Prompt enhancements and CLI shortcuts (`k`, `mk`, docker aliases).
   - **Desktop Customizations**: Power management, screensaver timeout, and lock-screen behavior (`xfconf-query` for XFCE, `gsettings` for GNOME).
-  - **Town CLI & AI Tools**: Multi-agent coordination utilities and global definitions.
+  - **Antigravity Customizations & Skills**: Configures global AGY rules, MCP config, and skills directory (`~/.gemini/config/skills/`) for on-demand progressive disclosure.
 
 ---
 
