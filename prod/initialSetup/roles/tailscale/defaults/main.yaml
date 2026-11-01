@@ -1,0 +1,6 @@
+---
+# Defaults for Tailscale role
+tailscale_enable_ssh: true
+tailscale_authkey: "{{ lookup('env', 'TAILSCALE_AUTHKEY') | default('', true) }}"
+tailscale_set_operator: true
+tailscale_operator_user: "{{ ansible_env.USER }}"
