@@ -73,5 +73,5 @@ Use only when multiple independent agents or discrete sequential stages are requ
 ---
 
 ## Next Steps
-- Audit guardrails and simplicity with `plan-review`.
+- Audit guardrails and simplicity with `plan-audit`.
 - Execute sequentially with `plan-execute`.

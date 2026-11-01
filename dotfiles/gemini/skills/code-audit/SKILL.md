@@ -1,13 +1,13 @@
 ---
-name: code-review
+name: code-audit
 description: >-
-  Use this skill to review, audit, critique, or inspect written code, git diffs, or PRs.
+  Use this skill to audit, review, critique, or inspect written code, git diffs, or PRs.
   Checks for file/function bloat, over-mocked tests, fragile bash usage, edge case gaps, and over-engineering.
 ---
 
-# Code Review Skill
+# Code Audit Skill
 
-This skill performs a fast, pragmatic code review focused on real-world maintainability, avoiding over-engineering while enforcing quality standards.
+This skill performs a fast, pragmatic code audit focused on real-world maintainability, avoiding over-engineering while enforcing quality standards.
 
 ---
 
@@ -42,12 +42,12 @@ Audit code against these 5 checks:
 
 ---
 
-## Output Review Report
+## Output Audit Report
 
-Deliver reviews using this structured markdown format:
+Deliver audits using this structured markdown format:
 
 ```markdown
-# Code Review Summary
+# Code Audit Summary
 
 ## 1. Verdict
 - `CLEAN`: Ready to merge/proceed.

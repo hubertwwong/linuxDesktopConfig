@@ -1,11 +1,11 @@
 ---
-name: skill-review
+name: skill-audit
 description: >-
-  Use this skill to review, audit, critique, or optimize an existing Antigravity skill.
+  Use this skill to audit, review, critique, or optimize an existing Antigravity skill.
   Checks frontmatter triggers, progressive disclosure, token efficiency, and script safety.
 ---
 
-# Skill Review Skill
+# Skill Audit Skill
 
 This skill systematically audits Antigravity skills to ensure high trigger accuracy, context efficiency, and actionable procedures.
 
@@ -34,12 +34,12 @@ This skill systematically audits Antigravity skills to ensure high trigger accur
 
 ---
 
-## Output Review Report
+## Output Audit Report Format
 
-Deliver reviews using this structured format:
+Deliver audits using this structured format:
 
 ```markdown
-# Skill Review: <skill-name>
+# Skill Audit: <skill-name>
 
 ## 1. Verdict
 - `APPROVED`: Ready to use with optimal discovery and structure.

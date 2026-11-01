@@ -1,12 +1,12 @@
 ---
-name: code-write
+name: code-create
 description: >-
-  Use this skill when asked to write, implement, or refactor code, modules, or tests.
+  Use this skill when asked to write, implement, create, or refactor code, modules, or tests.
   Enforces KISS, language selection (Python/Go over fragile Bash), file size limits (<300 lines),
   and pragmatic "Core 3" testing without mock overkill.
 ---
 
-# Code Write Skill
+# Code Create Skill
 
 This skill enforces clean, maintainable, and pragmatic software engineering standards for all authored code.
 

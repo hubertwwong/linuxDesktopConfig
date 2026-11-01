@@ -62,4 +62,4 @@ Every step in `SKILL.md` must include:
 ---
 
 ## Next Steps
-After writing the skill, audit it using **`skill-review`** to verify trigger precision and token efficiency.
+After writing the skill, audit it using **`skill-audit`** to verify trigger precision and token efficiency.
