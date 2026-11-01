@@ -35,3 +35,9 @@
     src: "{{ playbook_dir }}/../../dotfiles/gemini/AGENTS.md"
     dest: "{{ ansible_env.HOME }}/.gemini/config/AGENTS.md"
     mode: '0644'
+
+- name: Antigravity - Deploy modular skills
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../../dotfiles/gemini/skills/"
+    dest: "{{ ansible_env.HOME }}/.gemini/config/skills/"
+    mode: '0755'
